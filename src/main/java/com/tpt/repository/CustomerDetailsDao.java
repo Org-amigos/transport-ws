@@ -7,4 +7,6 @@ import com.tpt.model.CustomerDetails;
 @Repository
 public interface CustomerDetailsDao extends  JpaRepository<CustomerDetails, Integer>{
 
+	CustomerDetails findByCustomerId(Integer customerId);
+
 }

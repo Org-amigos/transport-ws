@@ -10,15 +10,14 @@ import com.tpt.model.CustomerDetails;
 import com.tpt.repository.CustomerDetailsDao;
 import com.tpt.service.CustomerDetailsService;
 
-
 @Service
-public class CustomerDetailsServiceImpl implements CustomerDetailsService{
-	
+public class CustomerDetailsServiceImpl implements CustomerDetailsService {
+
 	@Autowired
 	CustomerDetailsDao customerDetailsDao;
 
 	public String insertCustomerDetails(CustomerDetails customerDetails) {
-		if(customerDetailsDao.save(customerDetails)!=null) {
+		if (customerDetailsDao.save(customerDetails) != null) {
 			return CommonConstansts.ResponseStatus.SUCCESS;
 		}
 		return CommonConstansts.ResponseStatus.FAIL;
@@ -32,6 +31,18 @@ public class CustomerDetailsServiceImpl implements CustomerDetailsService{
 	@Override
 	public Integer getCustomersCount() {
 		return (int) customerDetailsDao.count();
+	}
+
+	@Override
+	public CustomerDetails getParticularCustomerDetails(Integer customerId) {
+
+		return customerDetailsDao.findByCustomerId(customerId);
+	}
+
+	@Override
+	public void deleteParticularCustomer(Integer customerId) {
+
+		customerDetailsDao.deleteById(customerId);
 	}
 
 }

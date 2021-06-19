@@ -12,4 +12,8 @@ public interface CustomerDetailsService {
 
 	Integer getCustomersCount();
 
+	CustomerDetails getParticularCustomerDetails(Integer customerId);
+
+	void deleteParticularCustomer(Integer customerId);
+
 }
