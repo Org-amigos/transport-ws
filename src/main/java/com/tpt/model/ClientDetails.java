@@ -1,7 +1,17 @@
 package com.tpt.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "ClientDetails")
 public class ClientDetails {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Integer clientId;
 	public String clientName;
 	public String clientEmail;
