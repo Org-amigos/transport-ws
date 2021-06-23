@@ -9,4 +9,10 @@ public interface CustomerDetailsDao extends  JpaRepository<CustomerDetails, Inte
 
 	CustomerDetails findByCustomerId(Integer customerId);
 
+	CustomerDetails findByPrimaryPhoneNumber(String primaryPhoneNumber);
+
+	CustomerDetails findByCustomerEmail(String customerEmail);
+	
+	
+
 }

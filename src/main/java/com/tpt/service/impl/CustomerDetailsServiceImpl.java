@@ -17,10 +17,21 @@ public class CustomerDetailsServiceImpl implements CustomerDetailsService {
 	CustomerDetailsDao customerDetailsDao;
 
 	public String insertCustomerDetails(CustomerDetails customerDetails) {
-		if (customerDetailsDao.save(customerDetails) != null) {
-			return CommonConstansts.ResponseStatus.SUCCESS;
+		CustomerDetails customerMailObj = customerDetailsDao.findByCustomerEmail(customerDetails.getCustomerEmail());
+		CustomerDetails customerPhoneObj = customerDetailsDao.findByPrimaryPhoneNumber(customerDetails.getPrimaryPhoneNumber());
+		
+		if ((customerMailObj == null) && (customerPhoneObj == null)) {
+			if (customerDetailsDao.save(customerDetails) != null) {
+				return CommonConstansts.ResponseStatus.SUCCESS;
+			}
+			return CommonConstansts.ResponseStatus.FAIL;
+		}		
+		else if(customerMailObj!=null){
+			return CommonConstansts.CustomerDetails.EMAIL_EXIST;
 		}
-		return CommonConstansts.ResponseStatus.FAIL;
+		else {
+			return CommonConstansts.CustomerDetails.PHONE_EXIST;
+		}
 	}
 
 	@Override

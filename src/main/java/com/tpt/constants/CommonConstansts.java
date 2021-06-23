@@ -8,4 +8,8 @@ public interface CommonConstansts {
 		String FAIL = "Fail";
 	}
 
+	public interface CustomerDetails {
+		String EMAIL_EXIST = "Customer Email already exists!!";
+		String PHONE_EXIST = "Customer Phone Number already exist";
+	}
 }
