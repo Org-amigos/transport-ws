@@ -18,6 +18,7 @@ public class ClientDetailsServiceimpl implements ClientDetailsService {
 
 
 	public String insertClientDetails(ClientDetails clientDetails) {
+		//Exception Handling Required
 		if (clientDetailsDao.save(clientDetails) != null) {
 			return CommonConstansts.ResponseStatus.SUCCESS;
 		}
@@ -45,7 +46,7 @@ public class ClientDetailsServiceimpl implements ClientDetailsService {
 
 	@Override
 	public void deleteParticularClient(Integer clientId) {
-		
+		//Exception Handling Required
 		clientDetailsDao.deleteById(clientId);
 	}
 
