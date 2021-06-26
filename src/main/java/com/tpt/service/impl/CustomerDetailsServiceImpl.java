@@ -17,6 +17,8 @@ public class CustomerDetailsServiceImpl implements CustomerDetailsService {
 	CustomerDetailsDao customerDetailsDao;
 
 	public String insertCustomerDetails(CustomerDetails customerDetails) {
+		
+		//Exception Handling Required
 		CustomerDetails customerMailObj = customerDetailsDao.findByCustomerEmail(customerDetails.getCustomerEmail());
 		CustomerDetails customerPhoneObj = customerDetailsDao.findByPrimaryPhoneNumber(customerDetails.getPrimaryPhoneNumber());
 		
@@ -52,7 +54,7 @@ public class CustomerDetailsServiceImpl implements CustomerDetailsService {
 
 	@Override
 	public void deleteParticularCustomer(Integer customerId) {
-
+		//Exception Handling Required
 		customerDetailsDao.deleteById(customerId);
 	}
 
