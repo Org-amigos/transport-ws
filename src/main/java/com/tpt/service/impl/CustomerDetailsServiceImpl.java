@@ -27,8 +27,9 @@ public class CustomerDetailsServiceImpl implements CustomerDetailsService {
 				.findByPrimaryPhoneNumber(customerDetails.getPrimaryPhoneNumber());
 
 		if ((customerMailObj == null) && (customerPhoneObj == null)) {
-			if (customerDetailsDao.save(customerDetails) != null) {
-				response.setData(customerDetails);
+			CustomerDetails customerDetailsDbObj =customerDetailsDao.save(customerDetails);
+			if (customerDetailsDbObj != null) {
+				response.setData(customerDetailsDbObj);
 				status.setMessage(CommonConstansts.CustomerDetails.CUSTOMER_SAVED);
 				status.setSuccess(CommonConstansts.ResponseStatus.SUCCESS);	
 			}
