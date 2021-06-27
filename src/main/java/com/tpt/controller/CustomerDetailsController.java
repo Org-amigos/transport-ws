@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tpt.constants.Response;
 import com.tpt.model.CustomerDetails;
 import com.tpt.service.CustomerDetailsService;
 
@@ -22,7 +23,7 @@ public class CustomerDetailsController {
 	CustomerDetailsService customerDetailsService;
 
 	@PostMapping(value = "/insert")
-	public String insertCustomerDetails(@RequestBody CustomerDetails customerDetails) {
+	public Response insertCustomerDetails(@RequestBody CustomerDetails customerDetails) {
 
 		return customerDetailsService.insertCustomerDetails(customerDetails);
 	}
@@ -46,7 +47,7 @@ public class CustomerDetailsController {
 	}
 	
 	@DeleteMapping(value = "/delete")
-	public String deleteParticularCustomer(@RequestParam(value = "customerId") Integer customerId) {
+	public Response deleteParticularCustomer(@RequestParam(value = "customerId") Integer customerId) {
 		return customerDetailsService.deleteParticularCustomer(customerId);
 	}
 
