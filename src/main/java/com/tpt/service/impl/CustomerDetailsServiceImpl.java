@@ -7,6 +7,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.tpt.constants.CommonConstansts;
+import com.tpt.constants.Response;
 import com.tpt.model.CustomerDetails;
 import com.tpt.repository.CustomerDetailsDao;
 import com.tpt.service.CustomerDetailsService;
@@ -17,23 +18,29 @@ public class CustomerDetailsServiceImpl implements CustomerDetailsService {
 	@Autowired
 	CustomerDetailsDao customerDetailsDao;
 
-	public String insertCustomerDetails(CustomerDetails customerDetails) {
+	public Response insertCustomerDetails(CustomerDetails customerDetails) {
 		
-		//Exception Handling Required
+		Response response = new Response();
+		Response.Status status = new Response.Status();
 		CustomerDetails customerMailObj = customerDetailsDao.findByCustomerEmail(customerDetails.getCustomerEmail());
 		CustomerDetails customerPhoneObj = customerDetailsDao
 				.findByPrimaryPhoneNumber(customerDetails.getPrimaryPhoneNumber());
 
 		if ((customerMailObj == null) && (customerPhoneObj == null)) {
 			if (customerDetailsDao.save(customerDetails) != null) {
-				return CommonConstansts.ResponseStatus.SUCCESS;
+				response.setData(customerDetails);
+				status.setMessage(CommonConstansts.CustomerDetails.CUSTOMER_SAVED);
+				status.setSuccess(CommonConstansts.ResponseStatus.SUCCESS);	
 			}
-			return CommonConstansts.ResponseStatus.FAIL;
 		} else if (customerMailObj != null) {
-			return CommonConstansts.CustomerDetails.EMAIL_EXIST;
+			status.setMessage(CommonConstansts.CustomerDetails.EMAIL_EXIST);
+			status.setSuccess(CommonConstansts.ResponseStatus.FAIL);
 		} else {
-			return CommonConstansts.CustomerDetails.PHONE_EXIST;
+			status.setMessage(CommonConstansts.CustomerDetails.PHONE_EXIST);
+			status.setSuccess(CommonConstansts.ResponseStatus.FAIL);
 		}
+		response.setStatus(status);
+		return response;
 	}
 
 	@Override
@@ -53,18 +60,22 @@ public class CustomerDetailsServiceImpl implements CustomerDetailsService {
 	}
 
 	@Override
-	public String deleteParticularCustomer(Integer customerId) {
-		String status = null;
+	public Response deleteParticularCustomer(Integer customerId) {
+		Response response = new Response();
+		Response.Status status = new Response.Status();
 		try {
 			customerDetailsDao.deleteById(customerId);
-			status = CommonConstansts.CustomerDetails.CUSTOMER_DELETED;
+			status.setMessage(CommonConstansts.CustomerDetails.CUSTOMER_DELETED);
+			status.setSuccess(CommonConstansts.ResponseStatus.SUCCESS);
 		} catch (EmptyResultDataAccessException e) {
-			status = CommonConstansts.CustomerDetails.CUSTOMER_NOTDELETED;
+			status.setMessage(CommonConstansts.ResponseStatus.FAIL);
+			status.setSuccess(CommonConstansts.CustomerDetails.CUSTOMER_NOTDELETED);
 		} catch (Exception e) {
-			status = CommonConstansts.ResponseStatus.SERVERUNDERMAINTANENCE;
+			status.setMessage(CommonConstansts.ResponseStatus.FAIL);
+			status.setSuccess(CommonConstansts.ResponseStatus.SERVERUNDERMAINTANENCE);
 		}
-
-		return status;
+		response.setStatus(status);
+		return response;
 	}
 
 }
