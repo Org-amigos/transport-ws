@@ -3,6 +3,7 @@ package com.tpt.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.tpt.constants.CommonConstansts;
@@ -18,18 +19,17 @@ public class CustomerDetailsServiceImpl implements CustomerDetailsService {
 
 	public String insertCustomerDetails(CustomerDetails customerDetails) {
 		CustomerDetails customerMailObj = customerDetailsDao.findByCustomerEmail(customerDetails.getCustomerEmail());
-		CustomerDetails customerPhoneObj = customerDetailsDao.findByPrimaryPhoneNumber(customerDetails.getPrimaryPhoneNumber());
-		
+		CustomerDetails customerPhoneObj = customerDetailsDao
+				.findByPrimaryPhoneNumber(customerDetails.getPrimaryPhoneNumber());
+
 		if ((customerMailObj == null) && (customerPhoneObj == null)) {
 			if (customerDetailsDao.save(customerDetails) != null) {
 				return CommonConstansts.ResponseStatus.SUCCESS;
 			}
 			return CommonConstansts.ResponseStatus.FAIL;
-		}		
-		else if(customerMailObj!=null){
+		} else if (customerMailObj != null) {
 			return CommonConstansts.CustomerDetails.EMAIL_EXIST;
-		}
-		else {
+		} else {
 			return CommonConstansts.CustomerDetails.PHONE_EXIST;
 		}
 	}
@@ -51,9 +51,18 @@ public class CustomerDetailsServiceImpl implements CustomerDetailsService {
 	}
 
 	@Override
-	public void deleteParticularCustomer(Integer customerId) {
+	public String deleteParticularCustomer(Integer customerId) {
+		String status = null;
+		try {
+			customerDetailsDao.deleteById(customerId);
+			status = CommonConstansts.CustomerDetails.CUSTOMER_DELETED;
+		} catch (EmptyResultDataAccessException e) {
+			status = CommonConstansts.CustomerDetails.CUSTOMER_NOTDELETED;
+		} catch (Exception e) {
+			status = CommonConstansts.ResponseStatus.SERVERUNDERMAINTANENCE;
+		}
 
-		customerDetailsDao.deleteById(customerId);
+		return status;
 	}
 
 }

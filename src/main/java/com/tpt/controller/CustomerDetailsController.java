@@ -46,8 +46,8 @@ public class CustomerDetailsController {
 	}
 	
 	@DeleteMapping(value = "/delete")
-	public void deleteParticularCustomer(@RequestParam(value = "customerId") Integer customerId) {
-		customerDetailsService.deleteParticularCustomer(customerId);
+	public String deleteParticularCustomer(@RequestParam(value = "customerId") Integer customerId) {
+		return customerDetailsService.deleteParticularCustomer(customerId);
 	}
 
 }

@@ -14,6 +14,6 @@ public interface CustomerDetailsService {
 
 	CustomerDetails getParticularCustomerDetails(Integer customerId);
 
-	void deleteParticularCustomer(Integer customerId);
+	String deleteParticularCustomer(Integer customerId);
 
 }
