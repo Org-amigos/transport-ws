@@ -1,7 +1,5 @@
 package com.tpt.constants;
 
-import java.util.Objects;
-
 public class Response {
 
 	private Object data;
@@ -54,34 +52,5 @@ public class Response {
 			this.message = message;
 		}
 
-		@Override
-		public boolean equals(Object o) {
-			if (this == o)
-				return true;
-			if (o == null || getClass() != o.getClass())
-				return false;
-			Status status = (Status) o;
-			return Objects.equals(success, status.success) && Objects.equals(message, status.message);
-		}
-
-		@Override
-		public int hashCode() {
-			return Objects.hash(success, message);
-		}
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o)
-			return true;
-		if (o == null || getClass() != o.getClass())
-			return false;
-		Response that = (Response) o;
-		return Objects.equals(data, that.data) && Objects.equals(status, that.status);
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(data, status);
 	}
 }
