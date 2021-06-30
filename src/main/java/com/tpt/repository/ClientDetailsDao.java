@@ -8,4 +8,8 @@ import com.tpt.model.ClientDetails;
 public interface ClientDetailsDao extends JpaRepository<ClientDetails , Integer>{
 
 	ClientDetails findByClientId(Integer clientId);
+
+	ClientDetails findByClientEmail(String clientEmail);
+
+	ClientDetails findByPrimaryPhoneNumber(String primaryPhoneNumber);
 }

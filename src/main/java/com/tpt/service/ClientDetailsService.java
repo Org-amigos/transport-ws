@@ -2,11 +2,12 @@ package com.tpt.service;
 
 import java.util.List;
 
+import com.tpt.constants.Response;
 import com.tpt.model.ClientDetails;
 
 public interface ClientDetailsService {
 	
-	String insertClientDetails(ClientDetails clientDetails);
+	Response insertClientDetails(ClientDetails clientDetails);
 
 	List<ClientDetails> getClients();
 
@@ -14,7 +15,7 @@ public interface ClientDetailsService {
 
 	ClientDetails getParticularClientDetails(Integer clientId);
 
-	void deleteParticularClient(Integer clientId);
+	Response deleteParticularClient(Integer clientId);
 
 
 }
