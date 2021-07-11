@@ -47,15 +47,16 @@ public class ClientDetailsController {
 	}
 	
 	@DeleteMapping(value = "/delete")
-	public void deleteParticularClient(@RequestParam(value = "clientId") Integer clientId) {
-		clientdetailsservice.deleteParticularClient(clientId);
+	public Response deleteParticularClient(@RequestParam(value = "clientId") Integer clientId) {
+		return clientdetailsservice.deleteParticularClient(clientId);
 	}
 	
 	
-	
-	
-	
-	
+	@DeleteMapping(value = "/softDelete")
+	public Response softDeleteParticularClient(@RequestParam(value = "isActive") Boolean isActive,
+			@RequestParam(value = "clientId") Integer clientId) {
+		return clientdetailsservice.softDeleteParticularClient(clientId, isActive);
+	}
 	
 	
 	

@@ -17,5 +17,8 @@ public interface ClientDetailsService {
 
 	Response deleteParticularClient(Integer clientId);
 
+	Response softDeleteParticularClient(Integer clientId, Boolean isActive);
+	
+
 
 }
