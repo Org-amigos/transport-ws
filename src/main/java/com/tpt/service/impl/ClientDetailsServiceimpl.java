@@ -3,9 +3,11 @@ package com.tpt.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.tpt.constants.CommonConstansts;
+import com.tpt.constants.Response;
 import com.tpt.model.ClientDetails;
 import com.tpt.repository.ClientDetailsDao;
 import com.tpt.service.ClientDetailsService;
@@ -17,13 +19,30 @@ public class ClientDetailsServiceimpl implements ClientDetailsService {
 	ClientDetailsDao clientDetailsDao;
 
 
-	public String insertClientDetails(ClientDetails clientDetails) {
-		//Exception Handling Required
-		if (clientDetailsDao.save(clientDetails) != null) {
-			return CommonConstansts.ResponseStatus.SUCCESS;
+	public Response insertClientDetails(ClientDetails clientDetails) {
+		Response response = new Response();
+		Response.Status status = new Response.Status();
+		ClientDetails clientMailObj = clientDetailsDao.findByClientEmail(clientDetails.getClientEmail());
+		ClientDetails clientPhoneObj = clientDetailsDao
+				.findByPrimaryPhoneNumber(clientDetails.getPrimaryPhoneNumber());
+
+		if ((clientMailObj == null) && (clientPhoneObj == null)) {
+			clientDetails.setIsActive(true);
+			ClientDetails clientDetailsDbObj =clientDetailsDao.save(clientDetails);
+			if (clientDetailsDbObj != null) {
+				response.setData(clientDetailsDbObj);
+				status.setMessage(CommonConstansts.ClientDetails.CLIENT_SAVED);
+				status.setSuccess(CommonConstansts.ResponseStatus.SUCCESS);	
+			}
+		} else if (clientMailObj != null) {
+			status.setMessage(CommonConstansts.ClientDetails.EMAIL_EXIST);
+			status.setSuccess(CommonConstansts.ResponseStatus.FAIL);
+		} else {
+			status.setMessage(CommonConstansts.ClientDetails.PHONE_EXIST);
+			status.setSuccess(CommonConstansts.ResponseStatus.FAIL);
 		}
-		return CommonConstansts.ResponseStatus.FAIL;
-		
+		response.setStatus(status);
+		return response;
 	}
 
 	@Override
@@ -45,9 +64,48 @@ public class ClientDetailsServiceimpl implements ClientDetailsService {
 	}
 
 	@Override
-	public void deleteParticularClient(Integer clientId) {
-		//Exception Handling Required
+	public Response deleteParticularClient(Integer clientId) {
+		Response response = new Response();
+		Response.Status status = new Response.Status();
+		try {
 		clientDetailsDao.deleteById(clientId);
+		status.setMessage(CommonConstansts.ClientDetails.CLIENT_DELETED);
+		status.setSuccess(CommonConstansts.ResponseStatus.SUCCESS);
+		    }
+		catch (EmptyResultDataAccessException e) {
+			status.setMessage(CommonConstansts.ResponseStatus.FAIL);
+			status.setSuccess(CommonConstansts.ClientDetails.CLIENT_NOTDELETED);
+		}
+		catch (Exception e) {
+				status.setMessage(CommonConstansts.ResponseStatus.FAIL);
+				status.setSuccess(CommonConstansts.ResponseStatus.SERVERUNDERMAINTANENCE);
+		}
+		response.setStatus(status);
+		return response;
+	}
+
+	@Override
+	public Response softDeleteParticularClient(Integer clientId, Boolean isActive) {
+		Response response = new Response();
+		Response.Status status = new Response.Status();
+		ClientDetails clientDetailsDbObj =  clientDetailsDao.findByClientId(clientId);
+		clientDetailsDbObj.setIsActive(isActive);
+		ClientDetails clientDetailsSoftDelObj =clientDetailsDao.save(clientDetailsDbObj);
+		status.setMessage(CommonConstansts.ClientDetails.CLIENT_DELETED);
+		status.setSuccess(CommonConstansts.ResponseStatus.SUCCESS);
+		response.setData(clientDetailsSoftDelObj);
+		response.setStatus(status);
+		return response;
 	}
 
 }
+
+
+
+
+
+
+
+
+
+

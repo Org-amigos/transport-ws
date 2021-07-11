@@ -18,4 +18,14 @@ public interface CommonConstansts {
 		
 
 	}
+	
+	public interface ClientDetails {
+		String EMAIL_EXIST = "Client Email already exists!!";
+		String PHONE_EXIST = "Client Phone Number already exist";
+		String CLIENT_DELETED = "Client Details Deleted Successfully";
+		String CLIENT_NOTDELETED = "Oops!! Client Details Not Deleted";
+		String CLIENT_SAVED = "Client Detais Saved Successfully!!";
+		
+
+	}
 }
