@@ -9,7 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan(basePackages = "com.tpt.*")
 @EnableAutoConfiguration
 public class TransportWsApplication {
-
+//1
 	public static void main(String[] args) {
 		SpringApplication.run(TransportWsApplication.class, args);
 	}
