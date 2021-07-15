@@ -7,7 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @ComponentScan(basePackages = "com.tpt.*")
-@EnableAutoConfiguration
+@EnableAutoConfigurationewt
 public class TransportWsApplication {
 
 	public static void main(String[] args) {
