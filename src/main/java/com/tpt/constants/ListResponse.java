@@ -1,7 +1,6 @@
 package com.tpt.constants;
 
 import java.util.List;
-import java.util.Objects;
 
 public class ListResponse {
 	private List data;
