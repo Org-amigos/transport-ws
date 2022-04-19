@@ -46,6 +46,12 @@ public class CustomerDetailsServiceImpl implements CustomerDetailsService {
 
 	@Override
 	public List<CustomerDetails> getCustomers() {
+		String sb="d";
+		 switch (sb) {
+		 case null ->  System.out.println("Great");
+	        case "Foo", "Bar" -> System.out.println("Great");
+	        default           -> System.out.println("Ok");
+	    }
 		return (List<CustomerDetails>) customerDetailsDao.findAll();
 	}
 
